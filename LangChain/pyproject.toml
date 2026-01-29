@@ -1,0 +1,45 @@
+[project]
+name = "my-langchain-app"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "python-dotenv",
+    "langchain",
+    "langchain-core",
+    "langchain-community",
+    "langchain-openai",
+    "langchain-ollama",
+    "langchain-experimental",
+    "pydantic",
+    "openai",
+    "chromadb>=0.6.0",
+    "sentence-transformers",
+    "defusedxml",
+    "pymysql",
+    "networkx",
+    "faiss-cpu>=1.13.2",
+
+    ## load加载器处理包
+    "pypdf",
+    "jq",
+    "unstructured",
+    "markdown",
+]
+
+[tool.setuptools]
+packages = []
+
+
+## 2026.01.29 完结撒花🎉
+## """
+## llm : 大语言模型，如GPT-3、GPT-4、ChatGPT等，用于生成文本。
+## prompt : 提示词工程，用于构建用户与模型之间的交互。
+## parser : 解析器，用于将用llm输出转换成指定的格式。
+## memory : 记忆，用于保存对话历史，并生成新的输入。
+## tools : 工具，用于执行用户请求的命令。
+## agent : 代理，用于管理工具和记忆，并生成最终的输出。
+## chain : 链，用于将llm、prompt、memory、tools和agent连接起来，实现完整的对话处理。
+## rag：检索增强生成，用于根据用户的问题，从知识库中检索相关内容，并使用llm生成回答。
+## """

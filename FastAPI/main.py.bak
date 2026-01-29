@@ -1,0 +1,92 @@
+
+from fastapi import FastAPI
+from fastapi.responses import Response, FileResponse, StreamingResponse, HTMLResponse, RedirectResponse
+from fastapi.staticfiles import StaticFiles
+import uvicorn
+
+app = FastAPI()
+
+
+@app.get("/items/{item_id}")
+async def read_item(item_id: int):
+    return {"item_id": item_id}
+
+
+@app.get('/download', response_class=Response(media_type='text/plain'))
+async def download():
+    '''
+    下载文件示例
+    ''' 
+    info = "This endpoint is intended to handle file downloads."
+    return Response(
+        content=info,
+        media_type="text/plain",
+        headers={
+            "Content-Disposition": 'attachment; filename="info.txt"'
+        }
+    )
+
+@app.get('/downloadFile', response_class=FileResponse(path="",media_type='image/png'))
+async def download_file():
+    '''
+    下载文件示例
+    ''' 
+    path = "./data/test.jpg"
+    return FileResponse(
+        path=path,
+        media_type="image/png",
+        headers={
+            "Content-Disposition": 'attachment; filename="test.png"'
+        }
+        
+    )
+
+def get_fileStream(path:str, size:int=1024*1024*2):
+    with open(path, "rb") as f:
+        while sb:=f.read(size):
+            print(f"读取文件: {size}")
+            yield sb
+
+
+@app.get('/downloadFile2', response_class=FileResponse(path="",media_type='image/png'))
+async def download_file():
+    '''
+    流式读取文件示例
+    ''' 
+    path = "./data/test.jpg"
+    return StreamingResponse(
+        content=get_fileStream(path),
+        media_type="image/png",
+        headers={
+            "Content-Disposition": 'attachment; filename="test.png"'
+        }
+        
+    )
+
+@app.get('/html', response_class=HTMLResponse)
+async def html():
+    '''
+    HTMLResponse示例
+    ''' 
+    path = "./data/index.html"
+    with open(path, "r", encoding='utf-8') as f:
+        html = f.read()
+
+    return HTMLResponse(content=html)
+
+@app.get('/redirect')
+async def redirect():
+    '''
+    跳转示例
+    ''' 
+    return RedirectResponse(url='/items/1')
+
+## 静态文件挂载
+app.mount("/static", StaticFiles(directory="data", html=True))
+        
+    
+
+
+if __name__ == "__main__":
+    print("Hello, World!")
+    uvicorn.run('main:app', host="127.0.0.1", port=8000, reload=True)

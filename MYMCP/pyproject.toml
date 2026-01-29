@@ -1,0 +1,20 @@
+[project]
+name = "my_mcp"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = [
+    "bilibili-api-python",
+    "fastmcp",
+    "mysql-mcp-server>=0.2.2",
+    "requests",
+    "openai",
+    "python-dotenv",
+    "edge-tts",
+    "sentence_transformers",
+    "chromadb>=0.6.0",
+    "markdown",
+    "beautifulsoup4"
+]
+
