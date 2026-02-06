@@ -84,19 +84,19 @@ public class ToolsTest {
 //        System.out.println(response2);
 
 //
-        Assistant assistant = AiServices.builder(Assistant.class)
-//                .tools(new WeatherTools(), new MovieTools())
-                .chatLanguageModel(ollamaModel)
-//                .chatMemory(chatMemory)
-                .build();
-        Result<String> result = assistant.chat("查询美人鱼的电影信息");
-        System.out.println(result.content());
-        System.out.println(result.tokenUsage());
-        System.out.println(result.sources());
+//        Assistant assistant = AiServices.builder(Assistant.class)
+////                .tools(new WeatherTools(), new MovieTools())
+//                .chatLanguageModel(ollamaModel)
+////                .chatMemory(chatMemory)
+//                .build();
+//        Result<String> result = assistant.chat("查询美人鱼的电影信息");
+//        System.out.println(result.content());
+//        System.out.println(result.tokenUsage());
+//        System.out.println(result.sources());
 //        查询上海到北京的机票，并查询北京的天气怎么样
-//        myAssistant.buildModel(ollamaModel).buildTools(WeatherTools.class, MovieTools.class);
-//        ChatResponse chat1 = myAssistant.chat(UserMessage.from("查询上海到北京的机票，并查询北京的天气怎么样，最后查询美人鱼的电影信息"));
-//        System.out.println(chat1);
+        myAssistant.buildModel(ollamaModel).buildTools(WeatherTools.class, MovieTools.class);
+        ChatResponse chat1 = myAssistant.chat(UserMessage.from("查询上海到北京的机票，并查询北京的天气怎么样，最后查询美人鱼的电影信息"));
+        System.out.println(chat1);
 
 
     }
