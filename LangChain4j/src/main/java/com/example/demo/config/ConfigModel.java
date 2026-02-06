@@ -22,7 +22,7 @@ import static dev.langchain4j.model.chat.request.ResponseFormat.JSON;
 public class ConfigModel {
 
     public static String modelname_modelscope = "Qwen/Qwen2.5-Coder-32B-Instruct";
-    public static String apiKey = "ms-4d36edb8-d883-4145-ae70-af8c40a34f10";
+    public static String apiKey = "ms-4d36edb8-****-4145-ae70-af8c40a34f10";
     public static String baseUrl = "https://api-inference.modelscope.cn/v1/";
     // deepseek-r1 、deepseek-r1:1.5b 、qwen3:4b 、qwen3:1.7b,  qwen2.5vl:3b qwen3-vl:4b
     public static String modelName_ollama = "qwen3-vl:4b";
