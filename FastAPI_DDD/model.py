@@ -3,11 +3,11 @@
 
 from pydantic import BaseModel
 from typing import Optional
-from common.ModelRegistry import ModelRegistry
+# from common.ModelRegistry import ModelRegistry
 
 
 # 创建用户模型
-@ModelRegistry.register
+# @ModelRegistry.register
 class User(BaseModel):
     id: int
     username: str
@@ -20,13 +20,13 @@ class User(BaseModel):
     info : Optional[UserInfo] = None
     orders :Optional[list[Order]] = []
 
-@ModelRegistry.register
+# @ModelRegistry.register
 class UserInfo(BaseModel):
     cid: Optional[str]= None
     
     class Config:
         from_attributes = True  # 允许从 ORM 对象转换
-@ModelRegistry.register
+# @ModelRegistry.register
 class Order(BaseModel):
     id: int
     name: str
@@ -46,4 +46,4 @@ class UserResponse(BaseModel):
 # UserInfo.model_rebuild()
 
 # 一次性重建所有
-ModelRegistry.rebuild_all()
+# ModelRegistry.rebuild_all()

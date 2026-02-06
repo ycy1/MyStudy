@@ -4,9 +4,9 @@ from fastapi.staticfiles import StaticFiles
 from config.dbConfig import init_db,close_db
 from reqApp import init_router
 from contextlib import asynccontextmanager
-from config.settings import settings
-from common.Middleware import my_middleware
-from config.redisCfg import redis_connect
+from config.settngs import settings
+from common.middleware import my_middleware
+# from config.redisCfg import redis_connect
 
 
 @asynccontextmanager
@@ -14,14 +14,14 @@ async def lifespan(app: FastAPI):
     '''
     应用生命周期管理
     '''
-    await init_db(app) # 初始化数据库
+    await init_db() # 初始化数据库
     print("启动数据库")
-    redis_client = await redis_connect()
-    app.state.redis = redis_client
+    # redis_client = await redis_connect()
+    # app.state.redis = redis_client
     yield
     # 关闭时断开数据库连接
     await close_db()
-    await app.state.redis.close()
+    # await app.state.redis.close()
     print("关闭数据库、关闭redis连接")
 
 app = FastAPI(lifespan=lifespan, version=settings.app_version, title=settings.app_name)
