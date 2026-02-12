@@ -26,7 +26,7 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(lifespan=lifespan, version=settings.app_version, title=settings.app_name)
 
-app.mount("/static", StaticFiles(directory=settings.static_folder), name="static") # 挂载静态文件
+# app.mount("/static", StaticFiles(directory=settings.static_folder), name="static") # 挂载静态文件
 init_router(app) # 初始化路由
 # my_middleware(app)  ## 中间件
 
