@@ -49,7 +49,7 @@ venv.bak/
 Thumbs.db  # Windows
 
 # flutter
-/windows/
+# /windows/
 # /build/
 # 锁文件
 *.lock
