@@ -47,3 +47,9 @@ venv.bak/
 # 系统文件
 .DS_Store  # macOS
 Thumbs.db  # Windows
+
+# flutter
+/windows/
+# /build/
+# 锁文件
+*.lock
