@@ -1,0 +1,102 @@
+# WebP Lossless Images
+WebP is a new type of image format that can provide high-quality lossless and lossy compression for images on the Internet. With WebP, website administrators and web developers can create smaller but more detailed images, thereby enhancing web access speed.
+
+Download and install WebP
+[webp](https://developers.google.cn/speed/webp/download?hl=zh-cn)
+### Windows
+After downloading and decompressing, you can directly execute the command in the bin directory. No further elaboration is needed!
+
+### Linux
+Install the libjpeg, libpng, libtiff and libgif packages to convert between JPEG, PNG, TIFF, GIF and WebP image formats.
+
+Package management varies by Linux distribution. On Ubuntu and Debian, the following command will install the required software packages:
+` ` `
+yum -y install libjpeg-dev libpng-dev libtiff-dev libgif-dev
+` ` `
+Unzip the downloaded tar xvzf libwebp-1.5.0.tar.gz
+` ` `
+cd libwebp-1.5.0
+./configure
+make
+sudo make install
+` ` `
+This will build and install the cwebp and dwebp command-line tools as well as the libwebp library (dynamic and static).
+
+By default, these tools are usually installed under /usr/local/bin/. The local version is built in the examples/ directory.
+
+This library is usually installed in the /usr/local/lib/directory. To avoid runtime errors, please ensure that your LD_LIBRARY_PATH environment variable contains this location. C header files are usually installed under /usr/local/include/webp.
+
+Use
+Use cwebp to convert images to WebP format
+Use cwebp in the command line to convert PNG or JPEG image files to WebP format. You can convert PNG image files to WebP images with quality ranges (a total of 80) :
+
+` ` `
+cwebp [options] input_file -o output_file.webp
+` ` `
+Common Options
+
+- ***-o string***
+Specify the name of the output WebP file. If omitted, cwebp will perform compression but only report statistical information. Using "-" as the output name will direct the output to "stdout".
+
+- ***-q float***
+Specify the compression coefficient of the RGB channel, ranging from 0 to 100. The default value is 75.
+If it is lossy compression (default), a smaller coefficient will result in a lower-quality file. Using a value of 100 can achieve the best image quality.
+
+- ***-z int***
+Enable the lossless compression mode and specify the level (between 0 and 9), where level 0 indicates the fastest and level 9 indicates the slowest. Compared with the slower mode, the fast mode generates larger file sizes. It is recommended to use -z 6 as the default value. This option is actually a shortcut to some predefined Settings for quality and methods. If the options -q or -m are used subsequently, they will invalidate this option.
+
+- ***-mt***
+If possible, please use multi-threading for encoding.
+
+Other options to see website [cwebp] (https://developers.google.cn/speed/webp/docs/cwebp?hl=zh-cn)
+
+Chestnuts on top 🌰
+"Combined with Java.
+```java
+/ * *
+Compress the file and return the compressed file
+* @param multipartFile file
+* @return the compressed file
+* /
+public static File compressFile(MultipartFile multipartFile) {
+The info (" libwebp: file compression start, size: {} ", FileUtils. ConvertFileSize (multipartFile. GetSize ()));
+String outputPath = System.getProperty("user.dir") + File.separator + "libwebp";
+try {
+String filePath = outputPath + File.separator + multipartFile.getOriginalFilename();
+// Create temporary files
+File file = new File(filePath);
+// Transfer the content of MultipartFile to a file
+multipartFile.transferTo(file);
+String LIBWEBP_HOME = System.getenv("LIBWEBP_HOME");
+String cmd = "cwebp.exe -q 50 -mt " + filePath + " -o " + outputPath + File.separator + "compressFile.webp";
+// Create an instance of ProcessBuilder
+ProcessBuilder builder = new ProcessBuilder("cmd", "/c", LIBWEBP_HOME + cmd);  // Use the dir command to list the contents of the current directory
+builder.redirectErrorStream(true);  // Merge the error output with the standard output
+// Start the process
+Process process = builder.start();
+
+// Read the output of the command (if any)
+BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream(), "GBK"));
+String line;
+while ((line = reader.readLine()) ! = null) {
+log.info("libwebp: {}", line);
+}
+// Wait for the process to end
+int exitCode = process.waitFor();
+FileUtil.del(file);
+//            System.out.println("Exited with code: " + exitCode);
+//            System.exit(0);
+
+} catch (Exception e) {
+log.error(" File compression exception,{}", e.go message ());
+}
+File compressFile = new File(outputPath + File.separator + "compressFile.webp");
+The info (" libwebp: file compression end, size: {} ", FileUtils. ConvertFileSize (compressFile. Length ()));
+return compressFile;
+}
+` ` `
+! [image. PNG] (http://182.92.85.80/group1/M00/00/02/tlxVUGh3waiAP-SRAAQ2gk_OtRE144.png)
+! [image. PNG] (http://182.92.85.80/group1/M00/00/02/tlxVUGh3wgmAFtzuAACHWP4Zv-Q489.png)
+! [image. PNG] (http://182.92.85.80/group1/M00/00/02/tlxVUGh3whqAG22AAACuoRV4Gvo533.png)
+
+**End**

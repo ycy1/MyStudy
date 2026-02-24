@@ -50,6 +50,7 @@ Thumbs.db  # Windows
 
 # flutter
 # /windows/
-# /build/
+/build/
+.dart_tool
 # 锁文件
 *.lock

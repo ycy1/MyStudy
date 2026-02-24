@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
+// import 'package:flutter/widget_previews.dart';
 
 void main(List<String> args) {
   runApp(UseStatePage());
 }
 
 class UseStatePage extends StatefulWidget {
-  // @Preview(size: Size(300, 800))
+  @Preview(size: Size(300, 800))
   const UseStatePage({super.key});
 
   @override

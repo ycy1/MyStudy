@@ -1,6 +1,8 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:logger/logger.dart';
+import 'DioUtil.dart';
 
 // final logger = Logger();
 final Logger logger = Logger(
@@ -46,7 +48,7 @@ class mainPage extends StatelessWidget {
         floatingActionButton: FloatingActionButton(
           child: Icon(Icons.add),
           onPressed: () {
-            print('add pressed');
+            debugPrint('add pressed');
           },
         ),
       ),
@@ -414,9 +416,16 @@ class _UseStatePageState extends State<UseStatePage> {
                         SizedBox(
                           width: double.infinity,
                           child: TextButton(
-                            onPressed: () => debugPrint(
-                              'name: ${_textController.text}, password: ${_passwordController.text}',
-                            ),
+                            onPressed: () => {
+                              DioUtil().get('/sys/category/tree')
+                              .then((value) => debugPrint(""))
+                              .catchError((error) => debugPrint(error.toString())),
+                              // Dio().get('http://127.0.0.1:8800/sys/category/tree')
+                              // .then((value) => debugPrint(value.toString()))
+                              // .catchError((error) => debugPrint(error.toString())),
+                              
+                              debugPrint('name: ${_textController.text}, password: ${_passwordController.text}',),
+                            },
                             style: TextButton.styleFrom(
                               backgroundColor: Colors.blueAccent,
                               foregroundColor: Colors.yellowAccent,

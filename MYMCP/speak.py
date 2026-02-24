@@ -5,7 +5,7 @@ import markdown
 from bs4 import BeautifulSoup
 
 # edge-tts --list-voices
-async def generate_speech(file_path="summary.md", output_file="output.mp3"):
+async def generate_speech(file_path="output.txt", output_file="output.mp3"):
     with open(file_path, "r", encoding="utf-8") as file:
         data = file.read()  
 
