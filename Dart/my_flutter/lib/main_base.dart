@@ -15,21 +15,7 @@ void main(List<String> args) {
           height: 50,
           child: Center(child: Text('BottomNavigationBar')),
         ),
-        // bottomNavigationBar: Container(
-        //   // SizedBox(width: 4, child: Text('...')),
-        //   height: 50,
-        //   child: Center(child: Text('BottomNavigationBar')),
-        // ),
-        // bottomNavigationBar: BottomNavigationBar(
-        //   items: [
-        //     BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-        //     BottomNavigationBarItem(
-        //       icon: Icon(Icons.business),
-        //       label: 'Business',
-        //     ),
-        //     BottomNavigationBarItem(icon: Icon(Icons.school), label: 'School'),
-        //   ],
-        // ),
+
         floatingActionButton: FloatingActionButton(
           onPressed: () {},
           child: Icon(Icons.access_alarm_outlined),

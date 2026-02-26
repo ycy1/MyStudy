@@ -1,7 +1,9 @@
+// import 'package:dio/dio.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widget_previews.dart';
 import 'package:logger/logger.dart';
+import 'package:my_flutter/SnackBarUtil.dart';
 import 'DioUtil.dart';
 
 // final logger = Logger();
@@ -21,7 +23,7 @@ final Logger logger = Logger(
 
 void main(List<String> args) {
   // runApp(mainPage());
-  runApp(UseStatePage());
+  runApp(UseStateRefreshPage());
 }
 
 // 无状态主页面
@@ -106,7 +108,7 @@ class _UseStateChildPageState extends State<UseStateChildPage> {
 // createState -> initState -> didChangeDependencies -> build
 // 路由切换时会调用 deactivate -> dispose
 class UseStatePage extends StatefulWidget {
-  @Preview(size: Size(300, 800))
+  // @Preview(size: Size(300, 800))
   const UseStatePage({super.key});
 
   @override
@@ -120,12 +122,14 @@ class UseStatePage extends StatefulWidget {
 // 有状态页面
 class _UseStatePageState extends State<UseStatePage> {
   late ScrollController _scrollController;
+  late DioUtil dioUtil;
 
   @override
   void initState() {
     // TODO: implement initState
     debugPrint('initState');
     _scrollController = ScrollController();
+    dioUtil = DioUtil();
     super.initState();
     // 添加滚动监听
     // _scrollController.addListener(() {
@@ -215,6 +219,7 @@ class _UseStatePageState extends State<UseStatePage> {
   @override
   Widget build(BuildContext context) {
     // logger.d(context.widget.runtimeType);
+    dioUtil = dioUtil ?? DioUtil();
     debugPrint('build');
     debugPrint(_isVisible.toString());
     // debugPrint(context.widget.runtimeType.toString()); // debugPrint 在生产环境会自动被禁用
@@ -416,15 +421,17 @@ class _UseStatePageState extends State<UseStatePage> {
                         SizedBox(
                           width: double.infinity,
                           child: TextButton(
-                            onPressed: () => {
-                              DioUtil().get('/sys/category/tree')
-                              .then((value) => debugPrint(""))
-                              .catchError((error) => debugPrint(error.toString())),
-                              // Dio().get('http://127.0.0.1:8800/sys/category/tree')
-                              // .then((value) => debugPrint(value.toString()))
-                              // .catchError((error) => debugPrint(error.toString())),
-                              
-                              debugPrint('name: ${_textController.text}, password: ${_passwordController.text}',),
+                            onPressed: () async {
+                              var res = await dioUtil.get<Map>(
+                                '/article/categorie-all',
+                              );
+                              // Map<String, dynamic> data =
+                              //     res.data as Map<String, dynamic>;
+                              // // debugPrint(res.statusCode.toString());
+                              List<Map<String, dynamic>> list = res['data']
+                                  .cast<Map<String, dynamic>>();
+
+                              debugPrint("list: $list");
                             },
                             style: TextButton.styleFrom(
                               backgroundColor: Colors.blueAccent,
@@ -501,6 +508,59 @@ class _UseStatePageState extends State<UseStatePage> {
               )
             : null,
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      ),
+    );
+  }
+}
+
+class UseStateRefreshPage extends StatefulWidget {
+  @Preview(size: Size(300, 800))
+  const UseStateRefreshPage({super.key});
+
+  @override
+  State<StatefulWidget> createState() {
+    // TODO: implement createState
+    debugPrint('createState');
+    return _UseStateRefreshPageState();
+  }
+}
+
+class _UseStateRefreshPageState extends State<UseStateRefreshPage> {
+  @override
+  void initState() {
+    // TODO: implement initState
+    Future.microtask(() {
+      _refreshIndicatorKey.currentState?.show();
+    });
+    super.initState();
+    debugPrint('refresh initState');
+  }
+
+  final GlobalKey<RefreshIndicatorState> _refreshIndicatorKey =
+      GlobalKey<RefreshIndicatorState>();
+  @override
+  Widget build(BuildContext context) {
+    debugPrint('refresh build');
+
+    // TODO: implement build
+    return MaterialApp(
+      home: Scaffold(
+        body: Builder(
+          builder: (BuildContext scaffoldContext) {
+            return RefreshIndicator(
+              key: _refreshIndicatorKey,
+              child: UseStatePage(),
+              onRefresh: () async {
+                // await Future.delayed(Duration(seconds: 2));
+                debugPrint('refresh');
+
+                // SnackBarUtil.showSnackBar(scaffoldContext, '刷新成功');
+                // SnackBarUtil.showErrorSnackBar(scaffoldContext, '刷新失败');
+                SnackBarUtil.showWarningSnackBar(scaffoldContext, '刷新告警');
+              },
+            );
+          },
+        ),
       ),
     );
   }
